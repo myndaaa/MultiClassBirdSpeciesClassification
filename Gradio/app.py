@@ -1,36 +1,28 @@
 import gradio as gr
 import tensorflow as tf
-from tensorflow.keras.preprocessing import image
 import numpy as np
+from PIL import Image
+import tensorflow_hub as hub
+
+# Load the model with custom objects
+model = tf.keras.models.load_model("birdie.h5", custom_objects={'KerasLayer': hub.KerasLayer})
 
 
-model = tf.keras.models.load_model("birdie.h5")
+# Define the prediction function
+def predict_bird(image):
+    image = Image.fromarray(image).resize((224, 224))  # Resize as needed for your model
+    image = np.array(image) / 255.0  # Normalize if required by your model
+    image = np.expand_dims(image, axis=0)
+    prediction = model.predict(image)
+    return {"Bird Probability": prediction[0][0]}
 
-class_labels = [...]  
-
-def predict_bird_species(img):
-   
-    img = img.resize((224, 224))  
-    img_array = image.img_to_array(img) / 255.0
-    img_array = np.expand_dims(img_array, axis=0)
-
-    # Make predictions
-    predictions = model.predict(img_array)
-    predicted_class = class_labels[np.argmax(predictions)]
-    confidence = np.max(predictions)
-
-    return {predicted_class: float(confidence)}
-
-# Gradio interface
-image_input = gr.inputs.Image(shape=(224, 224))
-label_output = gr.outputs.Label(num_top_classes=5)
-
-app = gr.Interface(
-    fn=predict_bird_species, 
-    inputs=image_input, 
-    outputs=label_output, 
-    title="Bird Species Classifier",
-    description="Upload an image of a bird to predict its species."
+# Set up Gradio interface
+interface = gr.Interface(
+    fn=predict_bird,
+    inputs="image",
+    outputs="label"
 )
 
-app.launch()
+# Launch the app
+if __name__ == "__main__":
+    interface.launch()
