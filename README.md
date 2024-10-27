@@ -9,7 +9,7 @@ Prepared for COS30018 Individual Assignment
 
 ## [Link of Dataset](https://drive.google.com/drive/folders/1_6Qx0lNwcuh9MbZAkimfsYRKef1thO5U?usp=drive_link)
 
-
+## [LInk to hugging face interface](https://huggingface.co/spaces/Myndaaa/Gradio)
 ### Project Overview
 - **Objective**: Classify bird species from images in the **CUB-200** dataset using deep learning.
 - **Dataset**: Caltech-UCSD Birds 200 (CUB-200) containing **200 bird species**.
