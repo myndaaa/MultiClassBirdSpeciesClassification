@@ -1,0 +1,7 @@
+tensorflow==2.12.0              
+tensorflow-hub                  
+gradio                          
+numpy                            
+Pillow                           
+scikit-learn                     
+matplotlib                       
